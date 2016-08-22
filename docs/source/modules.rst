@@ -3,7 +3,7 @@ Modules
 
 netMon-poller
 ~~~~~~~~~~~~~
-.. automodule:: task_manager
+.. automodule:: poller
 
 TaskManager
 +++++++++++
@@ -20,15 +20,24 @@ Task
 Available Tasks
 ~~~~~~~~~~~~~~~
 
-.. automodule:: ssh_tasks
+.. automodule:: poller.ssh_tasks
 
-.. automodule:: http_tasks
+.. automodule:: poller.http_tasks
 
-.. automodule:: snmp_tasks
+.. automodule:: poller.snmp_tasks
 
-.. automodule:: ip_tasks
+.. autoclass:: Snmp
+    :members:
+
+.. automodule:: poller.ip_tasks
+
+.. autoclass:: Ping
+    :members:
+
+.. autoclass:: Trace
+    :members:
 
 RESTful API
 ~~~~~~~~~~~
 
-.. automodule:: rest_api
+.. automodule:: poller.rest_api
