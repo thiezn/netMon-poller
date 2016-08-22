@@ -1,3 +1,8 @@
+# personal test scripts
+curltesting.sh
+config.json
+log.*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

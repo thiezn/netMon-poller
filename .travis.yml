@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.5"
+  - "3.5-dev"
+  - "nightly"
+install: 
+    - "pip install -r requirements.txt"
+    - "pip install coverage"
+    - "pip install coveralls"
+script: 
+    - "coverage run --source=netmon-poller setup.py test"
+after_success:
+    coveralls

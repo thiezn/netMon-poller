@@ -1,0 +1,4 @@
+[{"ssh": {"username": "user",
+            "password": "pass"},
+    "snmp": {"community": "public"}
+}]
