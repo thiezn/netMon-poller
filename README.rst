@@ -4,7 +4,7 @@ netMon-controller: Distributed Network Monitoring
 |Build Status| |Coverage Status| |Documentation Status|
 
 Detailed documentation at
-`netmon.readthedocs.org <https://netmon.readthedocs.org/>`__
+`netmon-poller.readthedocs.org <https://netmon-poller.readthedocs.org/>`__
 
 netMon is a distributed network monitoring solution written in python. The netMon poller is a
 single poller instance that can perform various probes on the network. It provides a RESTful
