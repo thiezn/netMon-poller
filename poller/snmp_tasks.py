@@ -99,6 +99,7 @@ class Snmp:
         result = {}
 
         while True:
+            print(current_oid)
             (err_indication,
              err_status,
              err_index,

@@ -2,6 +2,7 @@
 curltesting.sh
 config.json
 log.*
+*.swp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
