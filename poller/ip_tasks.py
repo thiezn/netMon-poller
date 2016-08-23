@@ -111,7 +111,7 @@ class Ping(Task):
 
         result = {'start_timestamp': time()}
 
-        ping = await create_subprocess_exec("ping",
+        ping = await create_subprocess_exec("/bin/ping",
                                             self.device,
                                             "-c " + self.count,
                                             "-l " + self.preload,

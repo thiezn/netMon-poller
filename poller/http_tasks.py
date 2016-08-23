@@ -34,3 +34,4 @@ class GetPage(Task):
 
         result['end_timestamp'] = time()
         self.results.append(result)
+        return result
