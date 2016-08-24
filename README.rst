@@ -20,7 +20,8 @@ Installation
 
     git clone https://github.com/thiezn/netMon-poller.git
     cd netMon-poller
-    python3 setup.py install
+    sudo pip3 install -r requirements.txt
+    ./run-poller.py
 
 Quickstart
 ----------

@@ -1,5 +1,3 @@
-asyncssh
-aiohttp
-pytest
-pytest-asyncio
 pysnmp
+aiohttp
+asyncssh
