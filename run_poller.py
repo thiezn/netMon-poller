@@ -16,7 +16,7 @@ def main():
                         format='%(asctime)s %(levelname)s %(message)s')
 
     logger.info('Loading config.json')
-    ssh_user, ssh_pass, snmp_community = load_config_file()
+    ssh_user, ssh_pass, snmp_community, api_host, api_port = load_config_file()
     logger.info('Loading task_manager...')
     task_manager = TaskManager(async_debug=False)
     logger.info('Loading SNMP handler')
@@ -31,7 +31,7 @@ def main():
 
     logger.info('Loading REST API...')
     rest_api = RestApi(task_manager,
-                       ip='127.0.0.1', port='9090',
+                       ip=api_host, port=str(api_port),
                        snmp_engine=snmp_engine,
                        ssh_user=ssh_user, ssh_pass=ssh_pass)
 

@@ -16,4 +16,6 @@ def load_config_file(filename='./config.json'):
 
     return (config[0]['ssh']['username'],
             config[0]['ssh']['password'],
-            config[0]['snmp']['community'])
+            config[0]['snmp']['community'],
+            config[0]['http_api']['host'],
+            config[0]['http_api']['port'])
