@@ -5,6 +5,8 @@ import asyncio
 from poller import TaskManager, RestApi
 from poller.snmp_tasks import Snmp
 from poller.utils import load_config_file
+from poller.ip_tasks import Ping
+from time import time
 
 
 def main():
@@ -23,7 +25,7 @@ def main():
     snmp_engine = Snmp(community=snmp_community)
 
     # If you want to add tasks before starting as a test place them here
-    # task_manager.add(Ping('10.243.48.5', run_at=time(), recurrence_time=5))
+    task_manager.add(Ping('10.243.48.5', run_at=time(), recurrence_time=5))
     # task_manager.add(Trace('10.243.48.5', run_at=time(), recurrence_time=3))
 
     logger.info('Registering task manager to asyncio loop')

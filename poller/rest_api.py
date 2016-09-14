@@ -171,7 +171,7 @@ class RestApi:
 
         tasks = queue_peek(self.task_manager.task_queue)
         for task in tasks:
-            if task._id == task_id:
+            if str(task._id) == str(task_id):
                 return web.json_response(self.task_to_json(task))
 
         return web.json_response({'error': 'Task {} not found'
