@@ -121,7 +121,8 @@ class RestApi:
                      'recurrence_time': task.recurrence_time,
                      '_id': task._id,
                      'type': task_type,
-                     'results': task.results}
+                     'results': task.results,
+                     'poller': (self.ip, self.port)}
 
         if task_type == 'InterfaceOctetsProbe':
             json_task['device'] = task.device
