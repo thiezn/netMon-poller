@@ -1,0 +1,15 @@
+[
+    {
+        "ssh": {
+            "username": "user",
+            "password": "pass"
+            },
+        "snmp": {
+            "community": "public"
+            },
+        "http_api": {
+            "host": "*",
+            "port": 9090
+            }
+    }
+]

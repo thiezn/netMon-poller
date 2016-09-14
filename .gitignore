@@ -1,6 +1,6 @@
 # personal test scripts
 curltesting.sh
-config.json
+#config.json
 log.*
 *.swp
 

@@ -1,1 +1,1 @@
-web: python3 run_poller
+web: python3 ./run_poller.py
