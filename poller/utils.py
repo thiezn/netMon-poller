@@ -6,7 +6,7 @@ def pretty_time(timestamp):
     """ Prints out readable date/times """
     if not timestamp:
         return None
-    return datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.fromtimestamp(int(timestamp)).strftime('%Y-%m-%d %H:%M:%S')  # blabla asdfasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 
 def load_config_file(filename='./config.json'):
