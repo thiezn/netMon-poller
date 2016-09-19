@@ -46,6 +46,18 @@ class Task:
         self.recurrence_time = recurrence_time
         self.recurrence_count = recurrence_count
 
+    @classmethod
+    def from_json(cls, **kwargs):
+        # TODO do i need this or just unpack a **dict
+        pass
+
+    def to_json(self):
+        data = {'run_at': self.run_at,
+                '_id': self._id,
+                'recurrence_time': self.recurrence_time,
+                'recurrence_count': self.recurrence_count}
+        return data
+
     def __repr__(self):
         return ("Task ID {} type: {} run_at: {} recur_time: {} recur_count: {}"
                 .format(self._id,
@@ -79,6 +91,18 @@ class Task:
         """ Runs the specified task
         each task type has to overload this function """
         raise NotImplementedError
+
+
+class TaskResult:
+    """Results of a Task"""
+    pass
+
+    def to_json(self):
+        pass
+
+    @classmethod
+    def from_json(self):
+        pass
 
 
 class TaskManager:

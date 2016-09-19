@@ -13,6 +13,10 @@ class GetPage(Task):
         super().__init__(*args, **kwargs)
         self.url = url
 
+    def to_json(self):
+        data = Task.to_json(self)
+        data['url'] = self.url
+
     async def run(self):
         """ Run a single command on a remote device
 

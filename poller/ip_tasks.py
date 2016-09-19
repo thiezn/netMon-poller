@@ -18,6 +18,13 @@ class Trace(Task):
         self.max_hops = str(max_hops)
         self.icmp = icmp
 
+    def to_json(self):
+        data = Task.to_json(self)
+        data['device'] = self.device
+        data['wait_time'] = self.wait_time
+        data['max_hops'] = self.max_hops
+        data['icmp'] = self.icmp
+
     async def run(self):
         """ Runs a traceroute using the OS traceroute function """
 
@@ -101,6 +108,13 @@ class Ping(Task):
         self.count = str(count)
         self.preload = str(preload)
         self.timeout = str(timeout)
+
+    def to_json(self):
+        data = Task.to_json(self)
+        data['device'] = self.device
+        data['count'] = self.count
+        data['preload'] = self.preload
+        data['timeout'] = self.timeout
 
     async def run(self):
         """ Runs a ping using the OS ping function

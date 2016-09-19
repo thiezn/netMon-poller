@@ -111,44 +111,6 @@ class RestApi:
         else:
             return None
 
-    def task_to_json(self, task):
-        """ Converts a task to a JSON object """
-
-        task_type = task.__class__.__name__
-
-        json_task = {'run_at': task.run_at,
-                     'recurrence_count': task.recurrence_count,
-                     'recurrence_time': task.recurrence_time,
-                     '_id': task._id,
-                     'type': task_type,
-                     'results': task.results,
-                     'poller': (self.ip, self.port)}
-
-        if task_type == 'InterfaceOctetsProbe':
-            json_task['device'] = task.device
-            json_task['if_index'] = task.if_index
-        elif task_type == 'SystemInfoProbe':
-            json_task['device'] = task.device
-       # elif task_type == 'SshRunSingleCommand':
-        #    json_task['device'] = task.device
-         #   json_task['cmd'] = task.cmd
-        elif task_type == 'GetPage':
-            json_task['url'] = task.url
-        elif task_type == 'Trace':
-            json_task['device'] = task.device
-            json_task['wait_time'] = task.wait_time
-            json_task['max_hops'] = task.max_hops
-            json_task['icmp'] = task.icmp
-        elif task_type == 'Ping':
-            json_task['device'] = task.device
-            json_task['count'] = task.count
-            json_task['preload'] = task.preload
-            json_task['timeout'] = task.timeout
-        else:
-            return None
-
-        return json_task
-
     def start(self):
         web.run_app(self.app, host=self.ip, port=self.port)
 
@@ -173,7 +135,7 @@ class RestApi:
         tasks = queue_peek(self.task_manager.task_queue)
         for task in tasks:
             if str(task._id) == str(task_id):
-                return web.json_response(self.task_to_json(task))
+                return web.json_response(task.to_json())
 
         return web.json_response({'error': 'Task {} not found'
                                            .format(task_id)})
@@ -211,7 +173,7 @@ class RestApi:
         tasks = queue_peek(self.task_manager.task_queue)
         json_tasks = []
         for task in tasks:
-            json_tasks.append(self.task_to_json(task))
+            json_tasks.append(task.to_json())
 
         return web.json_response(json_tasks)
 
