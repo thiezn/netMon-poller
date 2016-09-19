@@ -20,7 +20,6 @@ class SshRunSingleCommand(Task):
         data = Task.to_json(self)
         data['device'] = self.device
         data['cmd'] = self.cmd
-
         return data
 
     async def run(self):

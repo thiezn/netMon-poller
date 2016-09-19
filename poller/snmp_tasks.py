@@ -152,7 +152,6 @@ class SystemInfoProbe(Task):
         data = Task.to_json(self)
         data['device'] = self.device
         data['if_index'] = self.if_index
-
         return data
 
     async def run(self):
@@ -213,6 +212,7 @@ class InterfaceOctetsProbe(Task):
         data = Task.to_json(self)
         data['device'] = self.device
         data['if_index'] = self.if_index
+        return data
 
     async def run(self):
         """ Gets the in and out octets of a given interface

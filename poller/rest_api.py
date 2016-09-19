@@ -173,6 +173,7 @@ class RestApi:
         tasks = queue_peek(self.task_manager.task_queue)
         json_tasks = []
         for task in tasks:
+            logger.debug(task.to_json())
             json_tasks.append(task.to_json())
 
         return web.json_response(json_tasks)

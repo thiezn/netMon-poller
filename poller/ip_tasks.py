@@ -24,6 +24,7 @@ class Trace(Task):
         data['wait_time'] = self.wait_time
         data['max_hops'] = self.max_hops
         data['icmp'] = self.icmp
+        return data
 
     async def run(self):
         """ Runs a traceroute using the OS traceroute function """
@@ -115,6 +116,7 @@ class Ping(Task):
         data['count'] = self.count
         data['preload'] = self.preload
         data['timeout'] = self.timeout
+        return data
 
     async def run(self):
         """ Runs a ping using the OS ping function
