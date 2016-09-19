@@ -16,6 +16,12 @@ class SshRunSingleCommand(Task):
         self.password = password
         self.known_hosts = None
 
+    def to_json(self):
+        data = Task.to_json(self)
+        data['device'] = self.device
+        data['cmd'] = self.cmd
+        return data
+
     async def run(self):
         """ Run a single command on a remote device
 

@@ -28,14 +28,15 @@ class Task:
             recurrence_count: how often should the task reoccur
         """
         self.results = []
+        self.type = self.__class__.__name__
+
         run_at = kwargs.get('run_at', None)
         self._id = kwargs.get('_id', randint(1, 99999))
         recurrence_time = kwargs.get('recurrence_time', None)
         recurrence_count = kwargs.get('recurrence_count', None)
 
         if recurrence_count and not recurrence_time:
-            raise ValueError('Can\'t create recurring task without '
-                             'providing recurrence_count')
+            raise ValueError('Can\'t create recurring task without recurrence_count')
 
         if not run_at:
             self.run_at = time()
@@ -45,6 +46,14 @@ class Task:
         self.name = self.__class__.__name__
         self.recurrence_time = recurrence_time
         self.recurrence_count = recurrence_count
+
+    def to_json(self):
+        data = {'run_at': self.run_at,
+                '_id': self._id,
+                'recurrence_time': self.recurrence_time,
+                'recurrence_count': self.recurrence_count,
+                'type': self.type}
+        return data
 
     def __repr__(self):
         return ("Task ID {} type: {} run_at: {} recur_time: {} recur_count: {}"
@@ -79,6 +88,18 @@ class Task:
         """ Runs the specified task
         each task type has to overload this function """
         raise NotImplementedError
+
+
+class TaskResult:
+    """Results of a Task"""
+    pass
+
+    def to_json(self):
+        pass
+
+    @classmethod
+    def from_json(self):
+        pass
 
 
 class TaskManager:

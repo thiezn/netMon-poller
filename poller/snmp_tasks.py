@@ -148,6 +148,12 @@ class SystemInfoProbe(Task):
         self.device = device
         self.snmp = snmp
 
+    def to_json(self):
+        data = Task.to_json(self)
+        data['device'] = self.device
+        data['if_index'] = self.if_index
+        return data
+
     async def run(self):
         """ Gets common system information
 
@@ -201,6 +207,12 @@ class InterfaceOctetsProbe(Task):
         self.device = device
         self.if_index = if_index
         self.snmp = snmp
+
+    def to_json(self):
+        data = Task.to_json(self)
+        data['device'] = self.device
+        data['if_index'] = self.if_index
+        return data
 
     async def run(self):
         """ Gets the in and out octets of a given interface
