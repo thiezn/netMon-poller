@@ -147,25 +147,38 @@ class RestApi:
         as soon as possible """
 
         data = await request.json()
-        task = self.json_to_task(data)
-        if task:
-            logger.info('Adding {} to task_manager'.format(task))
-            self.task_manager.add(task)
 
-            # TODO: Fix the result fetching for a task
-            if 'run_instant' in data and data['run_instant']:
-                while True:
-                    item = 'not working dummy!'
-                    # queue = queue_peek(self.task_manager.result_queue)
-                    # for item in queue:
-                    #    if data['_id'] == item['_id']:
-                    return web.json_response(item, status=200)
-                    # await asyncio.sleep(.5)
-            else:
-                return web.Response(status=204)
+        logger.debug('Parsing received task {}'.format(data))
+
+        if data['type'] == 'InterfaceOctetsProbe':
+            task = InterfaceOctetsProbe(**data)
+        elif data['type'] == 'SystemInfoProbe':
+            task = SystemInfoProbe(**data)
+        elif data['type'] == 'SshRunSingleCommand':
+            task = SshRunSingleCommand(**data)
+        elif data['type'] == 'GetPage':
+            task = GetPage(**data)
+        elif data['type'] == 'Trace':
+            task = Trace(**data)
+        elif data['type'] == 'Ping':
+            task = Ping(**data)
         else:
-            return web.json_response({'error': 'task type not found'},
-                                     status=501)
+            return web.json_response({'error': 'task type not found'}, status=501)
+
+        logger.info('Adding {} to task_manager'.format(task))
+        self.task_manager.add(task)
+
+        # TODO: Fix the result fetching for a task
+        if 'run_instant' in data and data['run_instant']:
+            while True:
+                item = 'not working dummy!'
+                # queue = queue_peek(self.task_manager.result_queue)
+                # for item in queue:
+                #    if data['_id'] == item['_id']:
+                return web.json_response(item, status=200)
+                # await asyncio.sleep(.5)
+        else:
+            return web.Response(status=204)
 
     async def get_tasks(self, request):
         """ Returns all current scheduled tasks """
@@ -173,7 +186,6 @@ class RestApi:
         tasks = queue_peek(self.task_manager.task_queue)
         json_tasks = []
         for task in tasks:
-            logger.debug(task.to_json())
             json_tasks.append(task.to_json())
 
         return web.json_response(json_tasks)

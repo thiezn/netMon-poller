@@ -28,14 +28,15 @@ class Task:
             recurrence_count: how often should the task reoccur
         """
         self.results = []
+        self.type = self.__class__.__name__
+
         run_at = kwargs.get('run_at', None)
         self._id = kwargs.get('_id', randint(1, 99999))
         recurrence_time = kwargs.get('recurrence_time', None)
         recurrence_count = kwargs.get('recurrence_count', None)
 
         if recurrence_count and not recurrence_time:
-            raise ValueError('Can\'t create recurring task without '
-                             'providing recurrence_count')
+            raise ValueError('Can\'t create recurring task without recurrence_count')
 
         if not run_at:
             self.run_at = time()
@@ -46,16 +47,12 @@ class Task:
         self.recurrence_time = recurrence_time
         self.recurrence_count = recurrence_count
 
-    @classmethod
-    def from_json(cls, **kwargs):
-        # TODO do i need this or just unpack a **dict
-        pass
-
     def to_json(self):
         data = {'run_at': self.run_at,
                 '_id': self._id,
                 'recurrence_time': self.recurrence_time,
-                'recurrence_count': self.recurrence_count}
+                'recurrence_count': self.recurrence_count,
+                'type': self.type}
         return data
 
     def __repr__(self):
