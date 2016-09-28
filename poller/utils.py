@@ -18,4 +18,7 @@ def load_config_file(filename='./config.json'):
             config[0]['ssh']['password'],
             config[0]['snmp']['community'],
             config[0]['http_api']['host'],
-            config[0]['http_api']['port'])
+            config[0]['http_api']['port'],
+            config[0]['controller']['host'],
+            config[0]['controller']['port'],
+            config[0]['controller']['name'])

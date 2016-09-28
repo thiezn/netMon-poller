@@ -9,7 +9,12 @@
             },
         "http_api": {
             "host": "*",
-            "port": 9090
+            "port": 9091
+            },
+        "controller": {
+            "host": "127.0.0.1",
+            "port": 8080,
+            "name": "davis"
             }
     }
 ]

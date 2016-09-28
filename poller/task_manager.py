@@ -3,6 +3,7 @@
 import asyncio
 from time import time
 import logging
+import aiohttp
 from random import randint
 logger = logging.getLogger(__name__)
 
@@ -118,6 +119,27 @@ class TaskManager:
             self.loop = asyncio.get_event_loop()
 
         self.loop.set_debug(async_debug)
+
+    async def register(self, controller, keepalive=120):
+        """Register poller to controller and maintain keepalive
+
+        :param controller: controller tuple of (ip, port)
+        :param keepalive: The keepalive in seconds
+        """
+        url = "http://{}:{}/pollers/register".format(controller)
+        payload = {'name': 'dummy',
+                   'ip': controller[0],
+                   'port': controller[1]}
+
+        with aiohttp.ClientSession() as session:
+            logger.debug('Registering to controller {}'.format(controller))
+            async with session.post(url, payload=json.dumps(payload)) as response:
+                logger.debug('Controller response {}'.format(response))
+
+        while True:
+            # Keepalive
+            logger.debug('Sending keepalive to controller {}'.format(controller))
+            await asyncio.sleep(keepalive)
 
     def shutdown(self):
         """ kills any pending tasks and shuts down the task manager """
