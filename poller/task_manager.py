@@ -121,18 +121,19 @@ class TaskManager:
 
         self.loop.set_debug(async_debug)
 
-    async def register(self, controller, keepalive=120):
+    async def register(self, poller, controller, keepalive=120):
         """Register poller to controller and maintain keepalive
 
+        :param poller: Poller tuple of (name, ip, port)
         :param controller: controller tuple of (ip, port)
         :param keepalive: The keepalive in seconds
         """
         url = "http://{}:{}/pollers/register".format(controller[0], controller[1])
 
         headers = {'content-type': 'application/json'}
-        payload = {'name': 'dummy',
-                   'ip': controller[0],
-                   'port': controller[1]}
+        payload = {'name': poller[0],
+                   'ip': poller[1],
+                   'port': poller[2]}
 
         with aiohttp.ClientSession() as session:
             logger.debug('Registering to controller {}'.format(controller))

@@ -18,7 +18,7 @@ def main():
     (ssh_user, ssh_pass,
      snmp_community,
      api_host, api_port,
-     controller_ip, controller_port, controller_name) = load_config_file()
+     controller_ip, controller_port, poller_name) = load_config_file()
 
     logger.info('Loading task_manager...')
     task_manager = TaskManager(async_debug=False)
@@ -30,7 +30,7 @@ def main():
     # task_manager.add(Trace('10.243.48.5', run_at=time(), recurrence_time=3))
 
     logger.info('Registering poller to controller')
-    asyncio.ensure_future(task_manager.register((controller_ip, controller_port)))
+    asyncio.ensure_future(task_manager.register((poller_name, api_host, api_port), (controller_ip, controller_port)))
 
     logger.info('Registering task manager to asyncio loop')
     asyncio.ensure_future(task_manager.process_tasks())
