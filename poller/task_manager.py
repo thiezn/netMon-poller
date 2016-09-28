@@ -128,13 +128,15 @@ class TaskManager:
         :param keepalive: The keepalive in seconds
         """
         url = "http://{}:{}/pollers/register".format(controller[0], controller[1])
+
+        headers = {'content-type': 'application/json'}
         payload = {'name': 'dummy',
                    'ip': controller[0],
                    'port': controller[1]}
 
         with aiohttp.ClientSession() as session:
             logger.debug('Registering to controller {}'.format(controller))
-            async with session.post(url, data=json.dumps(payload)) as response:
+            async with session.post(url, data=json.dumps(payload), headers=headers) as response:
                 logger.debug('Controller response {}'.format(response.json()))
 
         while True:
