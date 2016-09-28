@@ -4,6 +4,7 @@ import asyncio
 from time import time
 import logging
 import aiohttp
+import json
 from random import randint
 logger = logging.getLogger(__name__)
 
@@ -126,15 +127,15 @@ class TaskManager:
         :param controller: controller tuple of (ip, port)
         :param keepalive: The keepalive in seconds
         """
-        url = "http://{}:{}/pollers/register".format(controller)
+        url = "http://{}:{}/pollers/register".format(controller[0], controller[1])
         payload = {'name': 'dummy',
                    'ip': controller[0],
                    'port': controller[1]}
 
         with aiohttp.ClientSession() as session:
             logger.debug('Registering to controller {}'.format(controller))
-            async with session.post(url, payload=json.dumps(payload)) as response:
-                logger.debug('Controller response {}'.format(response))
+            async with session.post(url, data=json.dumps(payload)) as response:
+                logger.debug('Controller response {}'.format(response.json()))
 
         while True:
             # Keepalive
