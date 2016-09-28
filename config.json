@@ -8,13 +8,13 @@
             "community": "public"
             },
         "http_api": {
+            "name": "davis",
             "host": "*",
             "port": 9090
             },
         "controller": {
             "host": "127.0.0.1",
-            "port": 8080,
-            "name": "davis"
+            "port": 8080
             }
     }
 ]
