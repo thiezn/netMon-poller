@@ -136,14 +136,12 @@ class TaskManager:
                    'port': poller[2]}
 
         with aiohttp.ClientSession() as session:
-            logger.debug('Registering to controller {}'.format(controller))
-            async with session.post(url, data=json.dumps(payload), headers=headers) as response:
-                logger.debug('Controller response {}'.format(response.json()))
+            while True:
+                logger.debug('Registering/keepalive to controller {}'.format(controller))
+                async with session.post(url, data=json.dumps(payload), headers=headers) as response:
+                    logger.debug('Controller response {}'.format(response.json()))
 
-        while True:
-            # Keepalive
-            logger.debug('Sending keepalive to controller {}'.format(controller))
-            await asyncio.sleep(keepalive)
+                await asyncio.sleep(keepalive)
 
     def shutdown(self):
         """ kills any pending tasks and shuts down the task manager """
