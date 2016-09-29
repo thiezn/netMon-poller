@@ -124,7 +124,7 @@ class TaskManager:
 
         self.loop.set_debug(async_debug)
 
-    async def register(self, poller, controller, keepalive=120):
+    async def register(self, poller, controller, keepalive=10):
         """Register poller to controller and maintain keepalive
 
         :param poller: Poller tuple of (name, ip, port)
