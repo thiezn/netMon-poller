@@ -31,6 +31,7 @@ class Task:
         """
         self.results = []
         self.type = self.__class__.__name__
+        self.description = kwargs.get('description', "")
 
         run_at = kwargs.get('run_at', None)
         self._id = kwargs.get('_id', randint(1, 99999))
@@ -54,13 +55,15 @@ class Task:
                 '_id': self._id,
                 'recurrence_time': self.recurrence_time,
                 'recurrence_count': self.recurrence_count,
-                'type': self.type}
+                'type': self.type,
+                'description': self.description}
         return data
 
     def __repr__(self):
-        return ("Task ID {} type: {} run_at: {} recur_time: {} recur_count: {}"
+        return ("Task ID {} type: {} descr: {} run_at: {} recur_time: {} recur_count: {}"
                 .format(self._id,
                         self.__class__.__name__,
+                        self.description,
                         self.run_at,
                         self.recurrence_time,
                         self.recurrence_count))
