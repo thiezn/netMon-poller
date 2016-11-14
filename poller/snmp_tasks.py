@@ -130,7 +130,7 @@ class Snmp:
                         else:
                             # We've reached the last oid
                             return result
-                current_oid = var_binds[-1]
+                current_oid = var_binds[-1][0][1]
 
 
 class SystemInfoProbe(Task):
