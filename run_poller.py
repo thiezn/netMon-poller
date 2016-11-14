@@ -5,12 +5,9 @@ import asyncio
 from poller import TaskManager, RestApi
 from poller.snmp_tasks import Snmp
 from poller.utils import load_config_file
-from poller.ip_tasks import Ping
-from time import time
 
 
 def main():
-
     logger = logging.getLogger(__name__)
     logging.basicConfig(filename='log.main',
                         level=logging.DEBUG,
@@ -18,15 +15,22 @@ def main():
                         format='%(asctime)s %(levelname)s %(message)s')
 
     logger.info('Loading config.json')
-    ssh_user, ssh_pass, snmp_community, api_host, api_port = load_config_file()
+    (ssh_user, ssh_pass,
+     snmp_community,
+     api_name, api_host, api_port,
+     controller_ip, controller_port) = load_config_file()
+
     logger.info('Loading task_manager...')
     task_manager = TaskManager(async_debug=False)
     logger.info('Loading SNMP handler')
     snmp_engine = Snmp(community=snmp_community)
 
     # If you want to add tasks before starting as a test place them here
-    task_manager.add(Ping('10.243.48.5', run_at=time(), recurrence_time=5))
+    # task_manager.add(Ping('10.243.48.5', run_at=time(), recurrence_time=5))
     # task_manager.add(Trace('10.243.48.5', run_at=time(), recurrence_time=3))
+
+    logger.info('Registering poller to controller')
+    asyncio.ensure_future(task_manager.register((api_name, api_host, api_port), (controller_ip, controller_port)))
 
     logger.info('Registering task manager to asyncio loop')
     asyncio.ensure_future(task_manager.process_tasks())

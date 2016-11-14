@@ -3,6 +3,8 @@
 import asyncio
 from time import time
 import logging
+import aiohttp
+import json
 from random import randint
 logger = logging.getLogger(__name__)
 
@@ -29,6 +31,7 @@ class Task:
         """
         self.results = []
         self.type = self.__class__.__name__
+        self.description = kwargs.get('description', "")
 
         run_at = kwargs.get('run_at', None)
         self._id = kwargs.get('_id', randint(1, 99999))
@@ -52,13 +55,15 @@ class Task:
                 '_id': self._id,
                 'recurrence_time': self.recurrence_time,
                 'recurrence_count': self.recurrence_count,
-                'type': self.type}
+                'type': self.type,
+                'description': self.description}
         return data
 
     def __repr__(self):
-        return ("Task ID {} type: {} run_at: {} recur_time: {} recur_count: {}"
+        return ("Task ID {} type: {} descr: {} run_at: {} recur_time: {} recur_count: {}"
                 .format(self._id,
                         self.__class__.__name__,
+                        self.description,
                         self.run_at,
                         self.recurrence_time,
                         self.recurrence_count))
@@ -118,6 +123,28 @@ class TaskManager:
             self.loop = asyncio.get_event_loop()
 
         self.loop.set_debug(async_debug)
+
+    async def register(self, poller, controller, keepalive=10):
+        """Register poller to controller and maintain keepalive
+
+        :param poller: Poller tuple of (name, ip, port)
+        :param controller: controller tuple of (ip, port)
+        :param keepalive: The keepalive in seconds
+        """
+        url = "http://{}:{}/pollers/register".format(controller[0], controller[1])
+
+        headers = {'content-type': 'application/json'}
+        payload = {'name': poller[0],
+                   'ip': poller[1],
+                   'port': poller[2]}
+
+        with aiohttp.ClientSession() as session:
+            while True:
+                logger.debug('Registering/keepalive to controller {}'.format(controller))
+                async with session.post(url, data=json.dumps(payload), headers=headers) as response:
+                    logger.debug('Controller response {}'.format(response.json()))
+
+                await asyncio.sleep(keepalive)
 
     def shutdown(self):
         """ kills any pending tasks and shuts down the task manager """
